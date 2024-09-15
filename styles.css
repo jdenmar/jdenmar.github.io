@@ -1,0 +1,60 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    transition: filter 1s ease, opacity 1s ease; /* Smooth transition */
+    filter: blur(10px);
+    opacity: 0;
+}
+
+.greeting {
+    background: black;
+}
+
+.sad {
+    background: url('/mnt/data/sad.jpg') no-repeat center center/cover;
+}
+
+.rough {
+    background: url('/mnt/data/tough.jpg') no-repeat center center/cover;
+}
+
+.me {
+    background: url('/mnt/data/hey.jpg') no-repeat center center/cover;
+}
+
+.friends {
+    background: url('/mnt/data/friends.jpg') no-repeat center center/cover;
+}
+
+.friends2 {
+    background: url('/mnt/data/friends2.jpg') no-repeat center center/cover;
+}
+
+.happy {
+    background: url('/mnt/data/happy.jpg') no-repeat center center/cover;
+}
+
+
+/* Text styling with background overlay for better readability */
+h1, h2, p {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+/* Active class to remove blur and show the section */
+.active {
+    filter: blur(0);
+    opacity: 1;
+}
