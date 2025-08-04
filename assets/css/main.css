@@ -1307,7 +1307,7 @@ section,
 
 .services .service-card .service-icon {
   margin-bottom: 25px;
-  background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+  background-color: white;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1323,6 +1323,7 @@ section,
 }
 
 .services .service-card h3 {
+  margin-top: 24px;
   font-size: 28px;
   margin-bottom: 15px;
   font-weight: 700;
