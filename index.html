@@ -1,786 +1,364 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>OishiChilliOil</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order — Oishii Chili Oil</title>
+  <style>
+    :root{
+      --bg:#0f0f10; --panel:#16171a; --muted:#8b8d94;
+      --text:#f5f6f7; --accent:#ff7a00; --accent-2:#ffb26b; --error:#ff5252;
+      --radius:14px; --gap:14px;
+      --tap:56px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:var(--accent)}
+    .wrap{max-width:980px;margin:auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
+    header h1{font-size:1.2rem;margin:0}
+    .card{
+      background:linear-gradient(180deg,#181a1f 0,#141519 100%);
+      border:1px solid #23242a;border-radius:var(--radius);padding:16px;
+      box-shadow:0 6px 20px rgba(0,0,0,.25)
+    }
+    .products{display:grid;grid-template-columns:1fr;gap:var(--gap)}
+    @media (min-width:780px){.products{grid-template-columns:repeat(3,1fr)}}
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    .item{display:flex;flex-direction:column;gap:12px}
+    .item h3{margin:0;font-size:1.05rem;letter-spacing:.2px}
+    .price{color:var(--accent-2);font-weight:600}
+    .qty{
+      display:flex;align-items:center;gap:10px;
+      background:#101114;border:1px solid #262832;border-radius:12px;padding:6px
+    }
+    .step{
+      width:var(--tap);height:var(--tap);
+      border:none;border-radius:10px;cursor:pointer;
+      background:linear-gradient(180deg,#24262d,#1b1d22);
+      color:var(--text);font-size:1.4rem;line-height:1;
+      display:flex;align-items:center;justify-content:center;
+      transition:transform .06s ease, background .2s;
+      touch-action:manipulation;
+    }
+    .step:active{transform:scale(.98)}
+    .step.plus{background:linear-gradient(180deg,#ff8b1a,#ff6f00)}
+    .num{
+      width:84px;height:var(--tap);
+      border:none;border-left:1px solid #2b2d37;border-right:1px solid #2b2d37;
+      background:#0d0f13;color:var(--text);text-align:center;
+      font-size:1.2rem;border-radius:8px;appearance:textfield;
+    }
+    /* Hide default spinners */
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+    input[type=number]{-moz-appearance:textfield}
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    .deal{
+      margin:10px 0 0;color:var(--muted);font-size:.95rem
+    }
+    .deal b{color:var(--accent)}
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    .two-col{display:grid;grid-template-columns:1fr;gap:var(--gap)}
+    @media (min-width:720px){.two-col{grid-template-columns:1fr 1fr}}
 
-  <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
+    .field{display:flex;flex-direction:column;gap:8px}
+    label{font-size:.95rem;color:#cfd1d7}
+    input,select,textarea{
+      background:#0f1217;color:var(--text);
+      border:1px solid #2c2e36;border-radius:12px;
+      padding:14px 14px;font-size:1rem;outline:none;
+      transition:border .15s ease, box-shadow .15s ease;
+    }
+    input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,122,0,.18)}
+    .hint{color:var(--muted);font-size:.85rem}
 
-  <!-- =======================================================
-  * Template Name: Strategy
-  * Template URL: https://bootstrapmade.com/strategy-bootstrap-agency-template/
-  * Updated: Jun 06 2025 with Bootstrap v5.3.6
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+    .summary{
+      display:flex;flex-direction:column;gap:8px;
+      background:#121318;border:1px dashed #2c2e36;border-radius:12px;padding:14px
+    }
+    .sum-row{display:flex;justify-content:space-between;gap:10px;font-size:1rem}
+    .sum-row.total{font-weight:800;font-size:1.2rem;color:#fff}
+    .sum-row.discount{color:#8ef1a7}
+    .sum-row.muted{color:var(--muted)}
+
+    .actions{display:flex;flex-direction:column;gap:12px}
+    .btn{
+      height:56px;border:none;border-radius:14px;cursor:pointer;
+      font-size:1.05rem;font-weight:700;letter-spacing:.2px;
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      background:linear-gradient(180deg,#ff8b1a,#ff6f00);color:#111;
+      box-shadow:0 10px 22px rgba(255,122,0,.22), inset 0 1px 0 rgba(255,255,255,.18);
+      transition:transform .06s ease, filter .2s ease;
+      touch-action:manipulation;
+    }
+    .btn.secondary{background:linear-gradient(180deg,#24262d,#1b1d22);color:#f3f4f6}
+    .btn:active{transform:translateY(1px)}
+
+    /* Sticky mobile total bar */
+    .sticky-total{
+      position:sticky;bottom:0;z-index:5;margin-top:12px;
+      background:linear-gradient(180deg,#16171a, #121317);border:1px solid #262832;
+      border-radius:16px;padding:12px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px
+    }
+    .sticky-total .figure{font-weight:900;font-size:1.25rem}
+    .sticky-total .mini{font-size:.85rem;color:var(--muted)}
+    .sticky-total .btn{height:48px;padding:0 16px}
+
+    /* Helpful spacing on small screens */
+    @media (max-width:480px){
+      .num{width:74px}
+      header h1{font-size:2rem;
+        font-family: "Nunito Sans", sans-serif;
+    }
+    }
+  </style>
 </head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Order Oishii Chili Oil</h1>
+      <div class="hint">AU prices · deal applies automatically</div>
+    </header>
 
-<body class="index-page">
 
-  <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.webp" alt=""> -->
-        <h1 class="sitename">Oishii Chilli Oil</h1>
-      </a>
-
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="#hero" class="active">Home</a></li>
-          <li><a href="#about">Our Story</a></li>
-          <li><a href="#services">Selections</a></li>
-          <li><a href="#portfolio">Photos</a></li>
-          <li><a href="#contact">Contact Us</a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
-
-      <a class="btn-getstarted" href="#about">Order Now</a>
-
-    </div>
-  </header>
-
-  <main class="main">
-
-    <!-- Hero Section -->
-    <section id="hero" class="hero section">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-7 content-col" data-aos="fade-up">
-            <div class="content">
-       
-
-              <div class="main-heading">
-                <h1>Welcome to Oishii Chilli Oil <br>Homemade with love in Brisbane</h1>
-              </div>
-
-              <div class="divider"></div>
-
-              <div class="description">
-                <p>Oishii Chilli Oil is a savoury, fragrant, and spicy condiment with layers of flavour in every spoonful. Made with a base of rice bran oil and fermented soybean paste, it delivers rich umami depth. The heat comes from green chillies — vibrant and zesty, not overpowering — balanced beautifully with the freshness of lemongrass, warmth of ginger, and the punch of garlic. Spring onion, salt, and pepper round it out for a well-balanced, aromatic chilli oil that’s both bold and addictive. It’s not just spicy — it’s complex, savoury, and fresh, perfect for drizzling, dipping, or mixing into your favourite dishes.</p>
-              </div>
-
-              <div class="cta-button">
-                <a href="#services" class="btn">
-                  <span>Selections</span>
-                  <i class="bi bi-arrow-right"></i>
-                </a>
-              </div>
-            </div>
+    <form id="orderForm" class="card" action="order.php" method="POST" novalidate>
+      <!-- PRODUCTS -->
+      <section class="products" aria-label="Products">
+        <div class="item">
+          <h3>Mild</h3>
+          <div class="price">$30 each</div>
+          <div class="qty" data-sku="mild">
+            <button class="step minus" type="button" aria-label="Decrease Mild">−</button>
+            <input class="num" type="number" inputmode="numeric" min="0" value="0" aria-label="Mild quantity">
+            <button class="step plus" type="button" aria-label="Increase Mild">＋</button>
           </div>
+        </div>
 
-          <div class="col-lg-5" data-aos="zoom-out">
-            <div class="visual-content">
-              <div class="fluid-shape">
-                <img src="assets/img/abstract/jar.png" alt="Abstract Fluid Shape" class="fluid-img">
-              </div>
-
-              <div class="stats-card">
-                <div class="stats-number">
-                  <h2>Over 3K</h2>
-                </div>
-                <div class="stats-label">
-                  <p>Sold in Australia</p>
-                </div>
-                <div class="stats-arrow">
-                  <a href="#portfolio"><i class="bi bi-arrow-up-right"></i></a>
-                </div>
-              </div>
-            </div>
+        <div class="item">
+          <h3>Hot</h3>
+          <div class="price">$30 each</div>
+          <div class="qty" data-sku="hot">
+            <button class="step minus" type="button" aria-label="Decrease Hot">−</button>
+            <input class="num" type="number" inputmode="numeric" min="0" value="0" aria-label="Hot quantity">
+            <button class="step plus" type="button" aria-label="Increase Hot">＋</button>
           </div>
+        </div>
+
+        <div class="item">
+          <h3>Extra Hot</h3>
+          <div class="price">$30 each</div>
+          <div class="qty" data-sku="extra">
+            <button class="step minus" type="button" aria-label="Decrease Extra Hot">−</button>
+            <input class="num" type="number" inputmode="numeric" min="0" value="0" aria-label="Extra Hot quantity">
+            <button class="step plus" type="button" aria-label="Increase Extra Hot">＋</button>
+          </div>
+        </div>
+      </section>
+
+      <p class="deal">
+        Deal: <b>Every 6 jars = $150</b> (mix & match). Otherwise $30 each.
+      </p>
+
+      <!-- SUMMARY -->
+      <section class="summary" aria-live="polite">
+        <div class="sum-row"><span>Subtotal</span><span id="subtotalTxt">$0.00</span></div>
+        <div class="sum-row discount" id="discountRow" style="display:none">
+          <span>Bundle discount</span><span id="discountTxt">–$0.00</span>
+        </div>
+        <div class="sum-row muted"><span>Items</span><span id="itemsTxt">0</span></div>
+        <div class="sum-row total"><span>Total (AUD)</span><span id="totalTxt">$0.00</span></div>
+      </section>
+
+      <!-- CUSTOMER -->
+      <section class="card" style="margin-top:16px">
+        <h3 style="margin:0 0 12px 0">Customer Information</h3>
+        <div class="two-col">
+          <div class="field">
+            <label for="name">Full Name</label>
+            <input id="name" name="name" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="04… / +61…" required />
+          </div>
+        </div>
+        <div class="two-col" style="margin-top:10px">
+          <div class="field">
+            <label for="country">Country</label>
+            <input id="country" name="country" autocomplete="country-name" placeholder="Australia" required />
+          </div>
+          <div class="field">
+            <label for="state">State / Province</label>
+            <input id="state" name="state" autocomplete="address-level1" placeholder="QLD" required />
+          </div>
+        </div>
+        <div class="two-col" style="margin-top:10px">
+          <div class="field">
+            <label for="city">City</label>
+            <input id="city" name="city" autocomplete="address-level2" required />
+          </div>
+          <div class="field">
+            <label for="postcode">Post Code</label>
+            <input id="postcode" name="postcode" inputmode="numeric" autocomplete="postal-code" required />
+          </div>
+        </div>
+        <div class="field" style="margin-top:10px">
+          <label for="address">Street Address</label>
+          <input id="address" name="address" autocomplete="street-address" required />
+        </div>
+      </section>
+
+      <!-- STICKY TOTAL + SUBMIT -->
+      <div class="sticky-total">
+        <div>
+          <div class="mini">Total</div>
+          <div class="figure" id="stickyTotal">$0.00</div>
+        </div>
+        <div class="actions" style="flex-direction:row;gap:10px">
+          <button class="btn secondary" type="button" id="resetBtn">Reset</button>
+          <button class="btn" type="submit">Place Order</button>
         </div>
       </div>
-    </section><!-- /Hero Section -->
 
-    <!-- About Section -->
-    <section id="about" class="about section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Our Story</h2>
-        <div><span>Learn More</span> <span class="description-title">About Us</span></div>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gx-5 align-items-center">
-          <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
-            <div class="about-image position-relative">
-              <img src="assets/img/about/our_story.jpg" class="img-fluid rounded-4 shadow-sm" alt="About Image" loading="lazy">
-              <div class="experience-badge">
-                <span class="years">3+</span>
-                <span class="text">Years in business</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mt-4 mt-lg-0" data-aos="fade-left" data-aos-delay="300">
-            <div class="about-content">
-              <h2>The Story Behind the Spice</h2>
-              <p class="lead">Hi, my name is <span style="color:#f90;">Jennifer</span> and my partner is  <span style="color:#f90;">Andrew</span> — the heart behind Oishii Chilli Oil. What started as a simple act of cooking for my family has blossomed into a small, family-run business born right here in Brisbane.</p>
-              <p>Oishii Chilli Oil is a unique and addictive blend made with only the finest natural ingredients — no preservatives, no additives, and absolutely no artificial flavours. Every jar is handmade in small batches to ensure maximum freshness and flavour.</p>
-
-              <div class="row g-4 mt-3">
-                <div class="col-md-6" data-aos="zoom-in" data-aos-delay="400">
-                  <div class="feature-item">
-                    <i class="bi bi-bullseye"></i>
-                    <h5>Crafted with Purpose</h5>
-                    <p>Our chilli oil isn’t just delicious — it’s incredibly versatile. Whether you're drizzling it over dumplings, tossing it through noodles, or spicing up your eggs, Oishii Chilli Oil will take your favourite dishes to the next level.</p>
-                  </div>
-                </div>
-                <div class="col-md-6" data-aos="zoom-in" data-aos-delay="450">
-                  <div class="feature-item">
-                   <i class="bi bi-heart-fill"></i>
-                    <h5>Made With Love, Shared With You</h5>
-                    <p>We’re proud to share a little taste of our home with you. Thank you for supporting our small family business!</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- <a href="#" class="btn btn-primary mt-4">Explore Our Services</a> -->
-            </div>
-          </div>
-        </div>
-
-        <!-- 
-        <div class="testimonial-section mt-5 pt-5" data-aos="fade-up" data-aos-delay="100">
-          <div class="row">
-            <div class="col-lg-4" data-aos="fade-right" data-aos-delay="200">
-              <div class="testimonial-intro">
-                <h3>Our Customers Speak Highly</h3>
-                <p>Spreading the Heat – One Review at a Time</p>
-                <div class="swiper-nav-buttons mt-4">
-                  <button class="slider-prev"><i class="bi bi-arrow-left"></i></button>
-                  <button class="slider-next"><i class="bi bi-arrow-right"></i></button>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-8" data-aos="fade-left" data-aos-delay="300">
-              <div class="testimonial-slider swiper init-swiper">
-                <script type="application/json" class="swiper-config">
-                  {
-                    "loop": true,
-                    "speed": 800,
-                    "autoplay": {
-                      "delay": 5000
-                    },
-                    "slidesPerView": 1,
-                    "spaceBetween": 30,
-                    "navigation": {
-                      "nextEl": ".slider-next",
-                      "prevEl": ".slider-prev"
-                    },
-                    "breakpoints": {
-                      "768": {
-                        "slidesPerView": 2
-                      }
-                    }
-                  }
-                </script>
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide">
-                    <div class="testimonial-item">
-                      <div class="rating mb-3">
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                      </div>
-                      <p>"Absolutely obsessed. I drizzle this chilli oil on everything — eggs, rice, even pizza. It gives the perfect umami punch."</p>
-                      <div class="client-info d-flex align-items-center mt-4">
-                        <img src="assets/img/person/person-f-1.webp" class="client-img" alt="Client" loading="lazy">
-                        <div>
-                          <h6 class="mb-0">Eleanor Vance</h6>
-                          <span>Customer</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="swiper-slide">
-                    <div class="testimonial-item">
-                      <div class="rating mb-3">
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-half"></i>
-                      </div>
-                      <p>"Tried the medium and hot varieties — both are bursting with flavor. You can tell it's made with love."</p>
-                      <div class="client-info d-flex align-items-center mt-4">
-                        <img src="assets/img/person/person-m-1.webp" class="client-img" alt="Client" loading="lazy">
-                        <div>
-                          <h6 class="mb-0">David Kim</h6>
-                          <span>Customer</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="swiper-slide">
-                    <div class="testimonial-item">
-                      <div class="rating mb-3">
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                      </div>
-                      <p>"This isn't just spicy. It's balanced, garlicky, and so addictive. I’ve stopped buying any other brand."</p>
-                      <div class="client-info d-flex align-items-center mt-4">
-                        <img src="assets/img/person/person-f-2.webp" class="client-img" alt="Client" loading="lazy">
-                        <div>
-                          <h6 class="mb-0">Isabella Diaz</h6>
-                          <span>Customer</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="swiper-slide">
-                    <div class="testimonial-item">
-                      <div class="rating mb-3">
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-half"></i>
-                      </div>
-                      <p>"It reminds me of my grandma's cooking — nostalgic and comforting but with a spicy twist."</p>
-                      <div class="client-info d-flex align-items-center mt-4">
-                        <img src="assets/img/person/person-f-3.webp" class="client-img" alt="Client" loading="lazy">
-                        <div>
-                          <h6 class="mb-0">Olivia Chen</h6>
-                          <span>Customer</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        -->
-
-      </div>
-
-    </section><!-- /About Section -->
-
-    <!-- Services Section -->
-    <section id="services" class="services section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Selections</h2>
-        <div><span>Check Our</span> <span class="description-title">Selections</span></div>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="service-header">
-          <div class="row align-items-center">
-            <div class="col-lg-8 col-md-12">
-              <div class="service-intro">
-                <h2 class="service-heading">
-                  <div>OUR FLAVORS</div>
-                  <div><span>CHOOSE YOUR SPICE </span></div>
-                </h2>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-12">
-              <div class="service-summary">
-                <p>
-                  From mild to extra hot, each jar is crafted with love and packed with bold garlic flavor and rich umami. Find the perfect match for your taste buds.
-                </p>
-                <a href="services.html" class="service-btn">
-                  Order Now
-                  <i class="bi bi-arrow-right"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row justify-content-center">
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="service-card position-relative z-1">
-              <div class="service-icon">
-                <img src="assets/img/abstract/jar.png" alt="Mild Jar" style="width: 128px; height: auto;" />
-              </div>
-            
-              <h3>
-                <a>
-                  Mild <span>Gentle Kick</span>
-                </a>
-              </h3>
-              <p>
-                Perfect for those who want rich garlicky goodness without too much heat. Great on eggs, rice, or even pizza.
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="service-card position-relative z-1">
-              <div class="service-icon">
-                <img src="assets/img/abstract/jar.png" alt="Mild Jar" style="width: 128px; height: auto;" />
-              </div>
-            
-              <h3>
-                <a>
-                  Hot <span>Balanced Heat</span>
-                </a>
-              </h3>
-              <p>
-                Our best-seller — a harmonious blend of spice and flavor. Drizzle it over noodles, dumplings, or stir-fries.
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="service-card position-relative z-1">
-              <div class="service-icon">
-                <img src="assets/img/abstract/jar.png" alt="Mild Jar" style="width: 128px; height: auto;"/>
-              </div>
-            
-              <h3>
-                <a>
-                  Extra Hot <span>Fiery & Addictive</span>
-                </a>
-              </h3>
-              <p>
-                For the spice lovers. Tongue-tingling heat with layers of roasted garlic and pepper crunch. Warning: You’ll crave more.
-              </p>
-            </div>
-          </div>
-     
-        </div>
-
-      </div>
-
-    </section><!-- /Services Section -->
-
-    <!-- Steps Section -->
-    <section id="steps" class="steps section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Steps</h2>
-        <div><span>How to</span> <span class="description-title">Order</span></div>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="steps-wrapper">
-
-          <div class="step-item" data-aos="fade-right" data-aos-delay="200">
-            <div class="step-content">
-              <div class="step-icon">
-                <i class="bi bi-lightbulb"></i>
-              </div>
-              <div class="step-info">
-                <span class="step-number">Step 01</span>
-                <h3>Press Order Now</h3>
-              </div>
-            </div>
-          </div><!-- End Step Item -->
-
-          <div class="step-item" data-aos="fade-left" data-aos-delay="300">
-            <div class="step-content">
-              <div class="step-icon">
-                <i class="bi bi-gear"></i>
-              </div>
-              <div class="step-info">
-                <span class="step-number">Step 02</span>
-                <h3>Add to Cart</h3>
-                <p>Select the variety chilli oil and its quantity.</p>
-              </div>
-            </div>
-          </div><!-- End Step Item -->
-
-          <div class="step-item" data-aos="fade-right" data-aos-delay="400">
-            <div class="step-content">
-              <div class="step-icon">
-                <i class="bi bi-bar-chart"></i>
-              </div>
-              <div class="step-info">
-                <span class="step-number">Step 03</span>
-                <h3>Customer Information</h3>
-                <p>Enter your information for postage.</p>
-              </div>
-            </div>
-          </div><!-- End Step Item -->
-
-          <div class="step-item" data-aos="fade-left" data-aos-delay="500">
-            <div class="step-content">
-              <div class="step-icon">
-                <i class="bi bi-check2-circle"></i>
-              </div>
-             <div class="step-info">
-              <span class="step-number">Step 04</span>
-              <h3>Checkout & Confirmation</h3>
-              <p>Your order will be processed, and a confirmation email will be sent to you. All that’s left is to wait a bit — and get ready for the fiery experience!</p>
-            </div>
-            </div>
-          </div><!-- End Step Item -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Steps Section -->
-
-    
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Photos</h2>
-        <div><span>Check Our</span> <span class="description-title">Photos and Testimonials</span></div>
-      </div><!-- End Section Title -->
-
-      <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-
-          
-
-          <div class="row g-4 isotope-container" data-aos="fade-up" data-aos-delay="300">
-
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-ui">
-              <article class="portfolio-entry">
-                <figure class="entry-image">
-                  <img src="assets/img/portfolio/1.jpg" class="img-fluid" alt="" loading="lazy">
-                  <div class="entry-overlay">
-                    <div class="overlay-content">
-                     
-                    </div>
-                  </div>
-                </figure>
-              </article>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-development">
-              <article class="portfolio-entry">
-                <figure class="entry-image">
-                  <img src="assets/img/portfolio/2.jpg" class="img-fluid" alt="" loading="lazy">
-                  <div class="entry-overlay">
-                    <div class="overlay-content">
-                      
-                    </div>
-                  </div>
-                </figure>
-              </article>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-photography">
-              <article class="portfolio-entry">
-                <figure class="entry-image">
-                  <img src="assets/img/portfolio/3.jpg" class="img-fluid" alt="" loading="lazy">
-                  <div class="entry-overlay">
-                    <div class="overlay-content">
-                      
-                    </div>
-                  </div>
-                </figure>
-              </article>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-marketing">
-              <article class="portfolio-entry">
-                <figure class="entry-image">
-                  <img src="assets/img/portfolio/4.jpg" class="img-fluid" alt="" loading="lazy">
-                  <div class="entry-overlay">
-                    <div class="overlay-content">
-                      
-                    </div>
-                  </div>
-                </figure>
-              </article>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-ui">
-              <article class="portfolio-entry">
-                <figure class="entry-image">
-                  <img src="assets/img/portfolio/5.png" class="img-fluid" alt="" loading="lazy">
-                  <div class="entry-overlay">
-                    <div class="overlay-content">
-                      
-                    </div>
-                  </div>
-                </figure>
-              </article>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-development">
-              <article class="portfolio-entry">
-                <figure class="entry-image">
-                  <img src="assets/img/portfolio/6.jpg" class="img-fluid" alt="" loading="lazy">
-                  <div class="entry-overlay">
-                    <div class="overlay-content">
-                     
-                    </div>
-                  </div>
-                </figure>
-              </article>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-photography">
-              <article class="portfolio-entry">
-                <figure class="entry-image">
-                  <img src="assets/img/portfolio/7.jpg" class="img-fluid" alt="" loading="lazy">
-                  <div class="entry-overlay">
-                    <div class="overlay-content">
-                      
-                    </div>
-                  </div>
-                </figure>
-              </article>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item filter-marketing">
-              <article class="portfolio-entry">
-                <figure class="entry-image">
-                  <img src="assets/img/portfolio/8.jpg" class="img-fluid" alt="" loading="lazy">
-                  <div class="entry-overlay">
-                    <div class="overlay-content">
-                      
-                    </div>
-                  </div>
-                </figure>
-              </article>
-            </div><!-- End Portfolio Item -->
-
-          </div><!-- End Portfolio Container -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Portfolio Section -->
-
- 
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-        <div><span>Let's</span> <span class="description-title">Connect</span></div>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <!-- Contact Info Boxes -->
-        <div class="row gy-4 mb-5">
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="contact-info-box">
-              <div class="icon-box">
-                <i class="bi bi-geo-alt"></i>
-              </div>
-              <div class="info-content">
-                <h4>Our Address</h4>
-                <p>Brisbane, Australia</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="contact-info-box">
-              <div class="icon-box">
-                <i class="bi bi-envelope"></i>
-              </div>
-              <div class="info-content">
-                <h4>Email Address</h4>
-                <p>info@example.com</p>
-                <p>contact@example.com</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="contact-info-box">
-              <div class="icon-box">
-                <i class="bi bi-headset"></i>
-              </div>
-              <div class="info-content">
-                <h4>Hours of Operation</h4>
-                <p>Sunday-Fri: 9 AM - 6 PM</p>
-                <p>Saturday: 9 AM - 4 PM</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Google Maps (Full Width) -->
-      <div class="map-section" data-aos="fade-up" data-aos-delay="200">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d47648.215714117214!2d152.9798106815953!3d-27.42330926745309!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b91579aac93d233%3A0x402a35af3deaf40!2sBrisbane%20QLD%2C%20Australia!5e0!3m2!1sen!2sph!4v1754306583754!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-
-      <!-- Contact Form Section (Overlapping) -->
-      <div class="container form-container-overlap">
-        <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="300">
-          <div class="col-lg-10">
-            <div class="contact-form-wrapper">
-              <h2 class="text-center mb-4">Get in Touch</h2>
-
-              <form action="forms/contact.php" method="post" class="php-email-form">
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-with-icon">
-                        <i class="bi bi-person"></i>
-                        <input type="text" class="form-control" name="name" placeholder="First Name" required="">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-with-icon">
-                        <i class="bi bi-envelope"></i>
-                        <input type="email" class="form-control" name="email" placeholder="Email Address" required="">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <div class="input-with-icon">
-                        <i class="bi bi-text-left"></i>
-                        <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <div class="form-group">
-                      <div class="input-with-icon">
-                        <i class="bi bi-chat-dots message-icon"></i>
-                        <textarea class="form-control" name="message" placeholder="Write Message..." style="height: 180px" required=""></textarea>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <div class="loading">Loading</div>
-                    <div class="error-message"></div>
-                    <div class="sent-message">Your message has been sent. Thank you!</div>
-                  </div>
-
-                  <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-submit">SEND MESSAGE</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </section><!-- /Contact Section -->
-
-  </main>
-
-  <footer id="footer" class="footer">
-
-    <div class="container footer-top">
-      <div class="row gy-4">
-        <div class="col-lg-5 col-md-12 footer-about">
-          <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">OishiChilliOil</span>
-          </a>
-          <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
-          <div class="social-links d-flex mt-4">
-            <a href=""><i class="bi bi-twitter-x"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
-          </div>
-        </div>
-
-        <div class="col-lg-2 col-6 footer-links">
-          <ul>
- 
-          </ul>
-        </div>
-
-        <div class="col-lg-2 col-6 footer-links">
-          <ul>
-   
-          </ul>
-        </div>
-
-        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-          <h4>Contact Us</h4>
-          <p>Brisbane</p>
-          <p>Australia</p>
-          <p class="mt-4"><strong>Phone:</strong> <span>+341234567</span></p>
-          <p><strong>Email:</strong> <span>info@example.com</span></p>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">OishiChilliOil</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by Jdenmar
-      </div>
-    </div>
-
-  </footer>
-
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Preloader -->
-  <div id="preloader"></div>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-
-  <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
-
+      <!-- Hidden fields for PHP -->
+      <input type="hidden" name="order_json" id="orderJson">
+      <input type="hidden" name="total_aud" id="totalAud">
+      <input type="hidden" name="discount_aud" id="discountAud">
+    </form>
+
+    <p class="hint" style="margin-top:10px">
+      Your order will be processed securely. We’ll confirm by SMS or email.
+    </p>
+  </div>
+
+  <script>
+    // --- Pricing rules ---
+    const PRICE_EACH = 30;      // AUD
+    const BUNDLE_SIZE = 6;
+    const BUNDLE_PRICE = 150;   // AUD
+    const DISCOUNT_PER_BUNDLE = (BUNDLE_SIZE * PRICE_EACH) - BUNDLE_PRICE; // 180-150=30
+
+    const form = document.getElementById('orderForm');
+    const qtyRows = [...document.querySelectorAll('.qty')];
+
+    function clampInt(v){
+      v = parseInt(v,10);
+      return Number.isFinite(v) && v >= 0 ? v : 0;
+    }
+
+    function getTotals(){
+      const q = {
+        mild:  clampInt(qtyRows.find(r=>r.dataset.sku==='mild').querySelector('.num').value),
+        hot:   clampInt(qtyRows.find(r=>r.dataset.sku==='hot').querySelector('.num').value),
+        extra: clampInt(qtyRows.find(r=>r.dataset.sku==='extra').querySelector('.num').value),
+      };
+      const items = q.mild + q.hot + q.extra;
+      const subtotal = items * PRICE_EACH;
+
+      const bundles = Math.floor(items / BUNDLE_SIZE);
+      const discount = bundles * DISCOUNT_PER_BUNDLE; // $30 off per 6
+      const total = subtotal - discount;
+
+      return { q, items, subtotal, discount, total, bundles };
+    }
+
+    function fmt(n){ return n.toLocaleString('en-AU',{style:'currency',currency:'AUD'}) }
+
+    function render(){
+      const {items, subtotal, discount, total} = getTotals();
+      document.getElementById('subtotalTxt').textContent = fmt(subtotal);
+      document.getElementById('discountTxt').textContent = '–' + fmt(discount);
+      document.getElementById('discountRow').style.display = discount>0 ? '' : 'none';
+      document.getElementById('itemsTxt').textContent = items;
+      document.getElementById('totalTxt').textContent = fmt(total);
+      document.getElementById('stickyTotal').textContent = fmt(total);
+    }
+
+    // Stepper controls
+    qtyRows.forEach(row=>{
+      const input = row.querySelector('.num');
+      row.querySelector('.minus').addEventListener('click', ()=>{
+        input.value = Math.max(0, clampInt(input.value) - 1);
+        render();
+      });
+      row.querySelector('.plus').addEventListener('click', ()=>{
+        input.value = clampInt(input.value) + 1;
+        render();
+      });
+      input.addEventListener('input', render);
+      input.addEventListener('blur', ()=>{ input.value = clampInt(input.value); render(); });
+    });
+
+    // Reset
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      document.querySelectorAll('.num').forEach(i=>i.value=0);
+      form.reset(); // clears visible fields, not our custom nums
+      render();
+    });
+
+    // Build payload + basic front-end validation
+    form.addEventListener('submit', (e)=>{
+      const { q, items, subtotal, discount, total, bundles } = getTotals();
+
+      // Simple checks for mobile UX
+      if(items === 0){
+        e.preventDefault();
+        alert('Please select at least 1 jar.');
+        return;
+      }
+      const required = ['name','phone','country','state','city','postcode','address'];
+      for(const id of required){
+        const el = document.getElementById(id);
+        if(!el.value.trim()){
+          e.preventDefault();
+          el.focus();
+          el.scrollIntoView({behavior:'smooth', block:'center'});
+          el.style.boxShadow = '0 0 0 3px rgba(255,82,82,.35)';
+          setTimeout(()=>el.style.boxShadow='', 1000);
+          return;
+        }
+      }
+
+      const order = {
+        items: [
+          { sku:'mild',  label:'Mild',       qty:q.mild,  unit_aud: PRICE_EACH },
+          { sku:'hot',   label:'Hot',        qty:q.hot,   unit_aud: PRICE_EACH },
+          { sku:'extra', label:'Extra Hot',  qty:q.extra, unit_aud: PRICE_EACH }
+        ].filter(x=>x.qty>0),
+        totals: {
+          pieces: items,
+          bundles, // number of 6-packs applied
+          subtotal_aud: subtotal,
+          discount_aud: discount,
+          total_aud: total,
+          rule: `Every ${BUNDLE_SIZE} = ${fmt(BUNDLE_PRICE)} else ${fmt(PRICE_EACH)} each`
+        },
+        customer: {
+          name: document.getElementById('name').value.trim(),
+          phone: document.getElementById('phone').value.trim(),
+          country: document.getElementById('country').value.trim(),
+          state: document.getElementById('state').value.trim(),
+          city: document.getElementById('city').value.trim(),
+          postcode: document.getElementById('postcode').value.trim(),
+          address: document.getElementById('address').value.trim()
+        },
+        meta:{
+          created_at: new Date().toISOString(),
+          currency:'AUD'
+        }
+      };
+
+      // Fill hidden inputs for PHP to consume
+      document.getElementById('orderJson').value = JSON.stringify(order);
+      document.getElementById('totalAud').value = String(total);
+      document.getElementById('discountAud').value = String(discount);
+    });
+
+    // Initial paint
+    render();
+  </script>
 </body>
-
 </html>
