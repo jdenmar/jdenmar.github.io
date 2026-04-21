@@ -354,6 +354,14 @@
 </section>
 
 <script>
+
+ if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+window.onload = () => {
+  window.scrollTo(0, 0);
+};
 const BASE = 'https://jdenmar.github.io/images';
 const EXTS = ['jpeg', 'jpg', 'JPG', 'JPEG', 'png', 'PNG', 'HEIC', 'heic'];
 
