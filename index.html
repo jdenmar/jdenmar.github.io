@@ -1,364 +1,795 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Order — Oishii Chili Oil</title>
-  <style>
-    :root{
-      --bg:#0f0f10; --panel:#16171a; --muted:#8b8d94;
-      --text:#f5f6f7; --accent:#ff7a00; --accent-2:#ffb26b; --error:#ff5252;
-      --radius:14px; --gap:14px;
-      --tap:56px;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    a{color:var(--accent)}
-    .wrap{max-width:980px;margin:auto;padding:20px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
-    header h1{font-size:1.2rem;margin:0}
-    .card{
-      background:linear-gradient(180deg,#181a1f 0,#141519 100%);
-      border:1px solid #23242a;border-radius:var(--radius);padding:16px;
-      box-shadow:0 6px 20px rgba(0,0,0,.25)
-    }
-    .products{display:grid;grid-template-columns:1fr;gap:var(--gap)}
-    @media (min-width:780px){.products{grid-template-columns:repeat(3,1fr)}}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Belle ♡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .item{display:flex;flex-direction:column;gap:12px}
-    .item h3{margin:0;font-size:1.05rem;letter-spacing:.2px}
-    .price{color:var(--accent-2);font-weight:600}
-    .qty{
-      display:flex;align-items:center;gap:10px;
-      background:#101114;border:1px solid #262832;border-radius:12px;padding:6px
-    }
-    .step{
-      width:var(--tap);height:var(--tap);
-      border:none;border-radius:10px;cursor:pointer;
-      background:linear-gradient(180deg,#24262d,#1b1d22);
-      color:var(--text);font-size:1.4rem;line-height:1;
-      display:flex;align-items:center;justify-content:center;
-      transition:transform .06s ease, background .2s;
-      touch-action:manipulation;
-    }
-    .step:active{transform:scale(.98)}
-    .step.plus{background:linear-gradient(180deg,#ff8b1a,#ff6f00)}
-    .num{
-      width:84px;height:var(--tap);
-      border:none;border-left:1px solid #2b2d37;border-right:1px solid #2b2d37;
-      background:#0d0f13;color:var(--text);text-align:center;
-      font-size:1.2rem;border-radius:8px;appearance:textfield;
-    }
-    /* Hide default spinners */
-    input[type=number]::-webkit-outer-spin-button,
-    input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-    input[type=number]{-moz-appearance:textfield}
+  :root {
+    --cream: #fdf8f2;
+    --warm-white: #fdf4ec;
+    --petal: #f0ddd0;
+    --blush: #e8c4ac;
+    --rose: #c4805a;
+    --deep-rose: #a0593a;
+    --bark: #5a3020;
+    --deep: #2e1a10;
+    --text: #3a2518;
+    --muted: #7a5540;
+    --light-muted: #b09080;
+  }
 
-    .deal{
-      margin:10px 0 0;color:var(--muted);font-size:.95rem
-    }
-    .deal b{color:var(--accent)}
+  html { scroll-behavior: smooth; }
 
-    .two-col{display:grid;grid-template-columns:1fr;gap:var(--gap)}
-    @media (min-width:720px){.two-col{grid-template-columns:1fr 1fr}}
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
 
-    .field{display:flex;flex-direction:column;gap:8px}
-    label{font-size:.95rem;color:#cfd1d7}
-    input,select,textarea{
-      background:#0f1217;color:var(--text);
-      border:1px solid #2c2e36;border-radius:12px;
-      padding:14px 14px;font-size:1rem;outline:none;
-      transition:border .15s ease, box-shadow .15s ease;
-    }
-    input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,122,0,.18)}
-    .hint{color:var(--muted);font-size:.85rem}
+  /* ─── HERO ─────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(175deg, #f8ede0 0%, #fdf4ec 40%, #f2e2d4 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 32px 60px;
+    position: relative;
+    overflow: hidden;
+  }
 
-    .summary{
-      display:flex;flex-direction:column;gap:8px;
-      background:#121318;border:1px dashed #2c2e36;border-radius:12px;padding:14px
-    }
-    .sum-row{display:flex;justify-content:space-between;gap:10px;font-size:1rem}
-    .sum-row.total{font-weight:800;font-size:1.2rem;color:#fff}
-    .sum-row.discount{color:#8ef1a7}
-    .sum-row.muted{color:var(--muted)}
+  .hero-bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hbc1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(196,128,90,0.08) 0%, transparent 70%); top: -100px; left: -150px; }
+  .hbc2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(196,128,90,0.06) 0%, transparent 70%); bottom: -80px; right: -100px; }
 
-    .actions{display:flex;flex-direction:column;gap:12px}
-    .btn{
-      height:56px;border:none;border-radius:14px;cursor:pointer;
-      font-size:1.05rem;font-weight:700;letter-spacing:.2px;
-      display:flex;align-items:center;justify-content:center;gap:10px;
-      background:linear-gradient(180deg,#ff8b1a,#ff6f00);color:#111;
-      box-shadow:0 10px 22px rgba(255,122,0,.22), inset 0 1px 0 rgba(255,255,255,.18);
-      transition:transform .06s ease, filter .2s ease;
-      touch-action:manipulation;
-    }
-    .btn.secondary{background:linear-gradient(180deg,#24262d,#1b1d22);color:#f3f4f6}
-    .btn:active{transform:translateY(1px)}
+  .petals-container { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .petal {
+    position: absolute;
+    width: 18px; height: 18px;
+    background: var(--rose);
+    border-radius: 50% 0 50% 0;
+    opacity: 0;
+    animation: petalFall linear infinite;
+  }
 
-    /* Sticky mobile total bar */
-    .sticky-total{
-      position:sticky;bottom:0;z-index:5;margin-top:12px;
-      background:linear-gradient(180deg,#16171a, #121317);border:1px solid #262832;
-      border-radius:16px;padding:12px;
-      display:flex;align-items:center;justify-content:space-between;gap:10px
-    }
-    .sticky-total .figure{font-weight:900;font-size:1.25rem}
-    .sticky-total .mini{font-size:.85rem;color:var(--muted)}
-    .sticky-total .btn{height:48px;padding:0 16px}
+  @keyframes petalFall {
+    0% { opacity: 0; transform: translateY(-20px) rotate(0deg); }
+    10% { opacity: 0.18; }
+    90% { opacity: 0.12; }
+    100% { opacity: 0; transform: translateY(100vh) rotate(360deg); }
+  }
 
-    /* Helpful spacing on small screens */
-    @media (max-width:480px){
-      .num{width:74px}
-      header h1{font-size:2rem;
-        font-family: "Nunito Sans", sans-serif;
-    }
-    }
-  </style>
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 24px;
+    animation: fadeUp 1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(72px, 14vw, 120px);
+    font-weight: 300;
+    line-height: 0.9;
+    color: var(--deep);
+    margin-bottom: 28px;
+    animation: fadeUp 1s 0.15s ease both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--rose);
+    display: block;
+  }
+
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 3vw, 22px);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    animation: fadeUp 1s 0.3s ease both;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--light-muted);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: fadeUp 1s 0.6s ease both;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--blush), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── LETTER ──────────────────────────────────────── */
+  .letter-section {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 100px 40px 80px;
+    text-align: center;
+  }
+
+  .section-tag {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .letter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 5vw, 44px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--deep);
+    margin-bottom: 36px;
+    line-height: 1.2;
+  }
+
+  .letter-body {
+    font-size: 16px;
+    line-height: 1.95;
+    color: var(--muted);
+    font-weight: 300;
+    text-align: left;
+  }
+
+  .letter-body p + p { margin-top: 20px; }
+
+  .letter-sig {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-style: italic;
+    color: var(--rose);
+    margin-top: 36px;
+    display: block;
+    text-align: center;
+  }
+
+  /* ─── ORNAMENT DIVIDER ────────────────────────────── */
+  .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 16px 40px;
+    color: var(--blush);
+    font-size: 14px;
+  }
+  .ornament-line { flex: 1; height: 0.5px; background: var(--petal); max-width: 200px; }
+  .ornament-glyph {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--rose);
+    opacity: 0.6;
+  }
+
+  /* ─── GALLERY SECTION ─────────────────────────────── */
+  .gallery-section {
+    padding: 80px 0 100px;
+    background: var(--warm-white);
+  }
+
+  .gallery-header {
+    text-align: center;
+    padding: 0 40px 60px;
+  }
+
+  .gallery-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 5vw, 42px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--deep);
+    margin-top: 12px;
+  }
+
+  /* ─── CATEGORY CAROUSEL ───────────────────────────── */
+  .category {
+    margin-bottom: 72px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .category.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .category-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 0 48px 20px;
+  }
+
+  .category-icon {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .category-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--deep);
+  }
+
+  .category-count {
+    font-size: 12px;
+    color: var(--light-muted);
+    letter-spacing: 1px;
+  }
+
+  /* Carousel wrapper */
+  .carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    padding: 0 48px;
+  }
+
+  .carousel-track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 16px;
+    cursor: grab;
+  }
+
+  .carousel-track:active { cursor: grabbing; }
+
+  .carousel-track::-webkit-scrollbar { height: 3px; }
+  .carousel-track::-webkit-scrollbar-track { background: var(--petal); border-radius: 2px; }
+  .carousel-track::-webkit-scrollbar-thumb { background: var(--blush); border-radius: 2px; }
+
+  .carousel-slide {
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background: var(--petal);
+    aspect-ratio: 4/5;
+  }
+
+  .carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .carousel-slide:hover img {
+    transform: scale(1.04);
+  }
+
+  /* Placeholder for when no image is loaded */
+  .slide-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .slide-placeholder-icon { font-size: 36px; opacity: 0.5; }
+  .slide-placeholder-label { font-size: 11px; color: var(--light-muted); }
+
+  /* Upload button on placeholder */
+  .slide-upload-btn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 12px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: background 0.2s;
+  }
+
+  .slide-upload-btn:hover {
+    background: rgba(196,128,90,0.06);
+  }
+
+  .upload-icon {
+    width: 40px; height: 40px;
+    border: 1.5px dashed var(--blush);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--rose);
+    opacity: 0.7;
+  }
+
+  /* Carousel nav buttons */
+  .carousel-nav {
+    display: flex;
+    gap: 10px;
+    padding: 16px 48px 0;
+    justify-content: flex-end;
+  }
+
+  .nav-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 0.5px solid var(--blush);
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    color: var(--rose);
+    font-size: 14px;
+  }
+
+  .nav-btn:hover {
+    background: var(--rose);
+    color: white;
+    border-color: var(--rose);
+    transform: scale(1.05);
+  }
+
+  .nav-btn svg { width: 16px; height: 16px; }
+
+  /* Add slide button */
+  .add-slide {
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+    border-radius: 16px;
+    aspect-ratio: 4/5;
+    border: 1.5px dashed var(--blush);
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+  }
+
+  .add-slide:hover {
+    background: rgba(196,128,90,0.04);
+    border-color: var(--rose);
+    color: var(--rose);
+  }
+
+  .add-icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--petal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--rose);
+  }
+
+  /* Hidden file input */
+  .file-input { display: none; }
+
+  /* ─── CLOSING ──────────────────────────────────────── */
+  .closing {
+    background: linear-gradient(160deg, var(--deep) 0%, var(--bark) 100%);
+    padding: 100px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .closing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(196,128,90,0.15) 0%, transparent 60%);
+  }
+
+  .closing-tag {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--blush);
+    opacity: 0.7;
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  .closing-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 300;
+    font-style: italic;
+    color: #f5e0c8;
+    line-height: 1.3;
+    margin-bottom: 28px;
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .closing-body {
+    font-size: 15px;
+    line-height: 1.9;
+    color: rgba(196,153,122,0.85);
+    max-width: 480px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+  }
+
+  .closing-heart {
+    display: inline-block;
+    animation: heartBeat 2.5s ease-in-out infinite;
+  }
+
+  @keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.2); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.1); }
+    60% { transform: scale(1); }
+  }
+
+  /* ─── RESPONSIVE ──────────────────────────────────── */
+  @media (max-width: 600px) {
+    .carousel-wrapper { padding: 0 20px; }
+    .carousel-header { padding: 0 20px 16px; }
+    .category-header { padding: 0 20px 16px; }
+    .carousel-nav { padding: 12px 20px 0; }
+    .carousel-slide { flex: 0 0 220px; }
+    .add-slide { flex: 0 0 220px; }
+    .letter-section { padding: 60px 28px; }
+  }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>Order Oishii Chili Oil</h1>
-      <div class="hint">AU prices · deal applies automatically</div>
-    </header>
 
+<!-- ── HERO ──────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg-circle hbc1"></div>
+  <div class="hero-bg-circle hbc2"></div>
+  <div class="petals-container" id="petalsContainer"></div>
 
+  <p class="hero-eyebrow">made just for you</p>
+  <h1 class="hero-title">For <em>Divine</em></h1>
+  <p class="hero-sub">The girl who makes every ordinary moment feel like the most beautiful thing in the world.</p>
 
-    <form id="orderForm" class="card" action="order.php" method="POST" novalidate>
-      <!-- PRODUCTS -->
-      <section class="products" aria-label="Products">
-        <div class="item">
-          <h3>Mild</h3>
-          <div class="price">$30 each</div>
-          <div class="qty" data-sku="mild">
-            <button class="step minus" type="button" aria-label="Decrease Mild">−</button>
-            <input class="num" type="number" inputmode="numeric" min="0" value="0" aria-label="Mild quantity">
-            <button class="step plus" type="button" aria-label="Increase Mild">＋</button>
-          </div>
-        </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
 
-        <div class="item">
-          <h3>Hot</h3>
-          <div class="price">$30 each</div>
-          <div class="qty" data-sku="hot">
-            <button class="step minus" type="button" aria-label="Decrease Hot">−</button>
-            <input class="num" type="number" inputmode="numeric" min="0" value="0" aria-label="Hot quantity">
-            <button class="step plus" type="button" aria-label="Increase Hot">＋</button>
-          </div>
-        </div>
+<!-- ── LETTER ─────────────────────────────────────────── -->
+<section class="letter-section">
+  <span class="section-tag">a note from me</span>
+  <h2 class="letter-title">You are so deeply loved.</h2>
+  <div class="letter-body">
+    <p>I made this little corner of the world for you — not because there's a special occasion, but because I thought about all our moments together and felt so full I had to put it somewhere.</p>
+    <p>The tired evenings, the sweaty runs, the sunsets we almost missed, the food we over-ordered. Every single one of them with you is something I keep close to my heart.</p>
+    <p>Whatever life brings — I want you to know that you are never alone in it. I am here, beside you, always. There is nothing we can't face together.</p>
+    <p>You are safe. You are loved. You are more than enough.</p>
+  </div>
+  <span class="letter-sig">— yours, always ♡</span>
+</section>
 
-        <div class="item">
-          <h3>Extra Hot</h3>
-          <div class="price">$30 each</div>
-          <div class="qty" data-sku="extra">
-            <button class="step minus" type="button" aria-label="Decrease Extra Hot">−</button>
-            <input class="num" type="number" inputmode="numeric" min="0" value="0" aria-label="Extra Hot quantity">
-            <button class="step plus" type="button" aria-label="Increase Extra Hot">＋</button>
-          </div>
-        </div>
-      </section>
+<div class="ornament">
+  <div class="ornament-line"></div>
+  <span class="ornament-glyph">✦</span>
+  <div class="ornament-line"></div>
+</div>
 
-      <p class="deal">
-        Deal: <b>Every 6 jars = $150</b> (mix & match). Otherwise $30 each.
-      </p>
-
-      <!-- SUMMARY -->
-      <section class="summary" aria-live="polite">
-        <div class="sum-row"><span>Subtotal</span><span id="subtotalTxt">$0.00</span></div>
-        <div class="sum-row discount" id="discountRow" style="display:none">
-          <span>Bundle discount</span><span id="discountTxt">–$0.00</span>
-        </div>
-        <div class="sum-row muted"><span>Items</span><span id="itemsTxt">0</span></div>
-        <div class="sum-row total"><span>Total (AUD)</span><span id="totalTxt">$0.00</span></div>
-      </section>
-
-      <!-- CUSTOMER -->
-      <section class="card" style="margin-top:16px">
-        <h3 style="margin:0 0 12px 0">Customer Information</h3>
-        <div class="two-col">
-          <div class="field">
-            <label for="name">Full Name</label>
-            <input id="name" name="name" autocomplete="name" required />
-          </div>
-          <div class="field">
-            <label for="phone">Phone</label>
-            <input id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="04… / +61…" required />
-          </div>
-        </div>
-        <div class="two-col" style="margin-top:10px">
-          <div class="field">
-            <label for="country">Country</label>
-            <input id="country" name="country" autocomplete="country-name" placeholder="Australia" required />
-          </div>
-          <div class="field">
-            <label for="state">State / Province</label>
-            <input id="state" name="state" autocomplete="address-level1" placeholder="QLD" required />
-          </div>
-        </div>
-        <div class="two-col" style="margin-top:10px">
-          <div class="field">
-            <label for="city">City</label>
-            <input id="city" name="city" autocomplete="address-level2" required />
-          </div>
-          <div class="field">
-            <label for="postcode">Post Code</label>
-            <input id="postcode" name="postcode" inputmode="numeric" autocomplete="postal-code" required />
-          </div>
-        </div>
-        <div class="field" style="margin-top:10px">
-          <label for="address">Street Address</label>
-          <input id="address" name="address" autocomplete="street-address" required />
-        </div>
-      </section>
-
-      <!-- STICKY TOTAL + SUBMIT -->
-      <div class="sticky-total">
-        <div>
-          <div class="mini">Total</div>
-          <div class="figure" id="stickyTotal">$0.00</div>
-        </div>
-        <div class="actions" style="flex-direction:row;gap:10px">
-          <button class="btn secondary" type="button" id="resetBtn">Reset</button>
-          <button class="btn" type="submit">Place Order</button>
-        </div>
-      </div>
-
-      <!-- Hidden fields for PHP -->
-      <input type="hidden" name="order_json" id="orderJson">
-      <input type="hidden" name="total_aud" id="totalAud">
-      <input type="hidden" name="discount_aud" id="discountAud">
-    </form>
-
-    <p class="hint" style="margin-top:10px">
-      Your order will be processed securely. We’ll confirm by SMS or email.
-    </p>
+<!-- ── GALLERY ────────────────────────────────────────── -->
+<section class="gallery-section">
+  <div class="gallery-header">
+    <span class="section-tag">our little world</span>
+    <h2 class="gallery-title">The moments that made us.</h2>
   </div>
 
-  <script>
-    // --- Pricing rules ---
-    const PRICE_EACH = 30;      // AUD
-    const BUNDLE_SIZE = 6;
-    const BUNDLE_PRICE = 150;   // AUD
-    const DISCOUNT_PER_BUNDLE = (BUNDLE_SIZE * PRICE_EACH) - BUNDLE_PRICE; // 180-150=30
+  <!-- Each category will be rendered by JS -->
+  <div id="categoriesContainer"></div>
+</section>
 
-    const form = document.getElementById('orderForm');
-    const qtyRows = [...document.querySelectorAll('.qty')];
+<div class="ornament">
+  <div class="ornament-line"></div>
+  <span class="ornament-glyph">✦</span>
+  <div class="ornament-line"></div>
+</div>
 
-    function clampInt(v){
-      v = parseInt(v,10);
-      return Number.isFinite(v) && v >= 0 ? v : 0;
-    }
+<!-- ── CLOSING ────────────────────────────────────────── -->
+<section class="closing">
+  <span class="closing-tag">always and always</span>
+  <h2 class="closing-title">"Whatever comes,<br>we face it together."</h2>
+  <p class="closing-body">Thank you for choosing me every single day. For trusting me with your fears, your laughter, your tired face, and everything in between. I wouldn't trade a single moment.</p>
+  <span class="closing-heart">
+    <svg width="48" height="44" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24 42C24 42 2 27 2 13C2 7.47 6.47 3 12 3C16.18 3 19.77 5.48 22 9C24.23 5.48 27.82 3 32 3C37.53 3 42 7.47 42 13C42 27 24 42 24 42Z" fill="#c4805a" stroke="#a05030" stroke-width="0.5"/>
+    </svg>
+  </span>
+</section>
 
-    function getTotals(){
-      const q = {
-        mild:  clampInt(qtyRows.find(r=>r.dataset.sku==='mild').querySelector('.num').value),
-        hot:   clampInt(qtyRows.find(r=>r.dataset.sku==='hot').querySelector('.num').value),
-        extra: clampInt(qtyRows.find(r=>r.dataset.sku==='extra').querySelector('.num').value),
-      };
-      const items = q.mild + q.hot + q.extra;
-      const subtotal = items * PRICE_EACH;
+<script>
+// ── CATEGORIES DATA ──────────────────────────────────────
+const categories = [
+  { id: 'jogs',     icon: '🌅', name: 'Our morning jogs',   color: '#ecdfd4', slots: 5 },
+  { id: 'sunsets',  icon: '🌇', name: 'Sunsets',            color: '#f0d8c0', slots: 5 },
+  { id: 'drives',   icon: '🚗', name: 'Late night drives',  color: '#e8ddd0', slots: 5 },
+  { id: 'badminton',icon: '🏸', name: 'Badminton',          color: '#dce8dc', slots: 5 },
+  { id: 'food',     icon: '🍜', name: 'Food adventures',    color: '#f0e0c8', slots: 5 },
+  { id: 'us',       icon: '🤍', name: 'Just us',            color: '#e8d4d0', slots: 5 },
+];
 
-      const bundles = Math.floor(items / BUNDLE_SIZE);
-      const discount = bundles * DISCOUNT_PER_BUNDLE; // $30 off per 6
-      const total = subtotal - discount;
+// Storage key prefix
+const STORE_KEY = 'belle_photos_';
 
-      return { q, items, subtotal, discount, total, bundles };
-    }
+// Load stored images (base64) from localStorage
+function loadImages(catId) {
+  try {
+    const stored = localStorage.getItem(STORE_KEY + catId);
+    return stored ? JSON.parse(stored) : [];
+  } catch(e) { return []; }
+}
 
-    function fmt(n){ return n.toLocaleString('en-AU',{style:'currency',currency:'AUD'}) }
+function saveImages(catId, images) {
+  try {
+    localStorage.setItem(STORE_KEY + catId, JSON.stringify(images));
+  } catch(e) {
+    alert('Storage full! Try removing some photos first.');
+  }
+}
 
-    function render(){
-      const {items, subtotal, discount, total} = getTotals();
-      document.getElementById('subtotalTxt').textContent = fmt(subtotal);
-      document.getElementById('discountTxt').textContent = '–' + fmt(discount);
-      document.getElementById('discountRow').style.display = discount>0 ? '' : 'none';
-      document.getElementById('itemsTxt').textContent = items;
-      document.getElementById('totalTxt').textContent = fmt(total);
-      document.getElementById('stickyTotal').textContent = fmt(total);
-    }
+// ── BUILD CATEGORIES ─────────────────────────────────────
+function buildCategories() {
+  const container = document.getElementById('categoriesContainer');
+  categories.forEach((cat, ci) => {
+    const images = loadImages(cat.id);
 
-    // Stepper controls
-    qtyRows.forEach(row=>{
-      const input = row.querySelector('.num');
-      row.querySelector('.minus').addEventListener('click', ()=>{
-        input.value = Math.max(0, clampInt(input.value) - 1);
-        render();
-      });
-      row.querySelector('.plus').addEventListener('click', ()=>{
-        input.value = clampInt(input.value) + 1;
-        render();
-      });
-      input.addEventListener('input', render);
-      input.addEventListener('blur', ()=>{ input.value = clampInt(input.value); render(); });
-    });
+    const section = document.createElement('div');
+    section.className = 'category';
+    section.setAttribute('data-cat', cat.id);
+    section.style.transitionDelay = (ci * 0.1) + 's';
 
-    // Reset
-    document.getElementById('resetBtn').addEventListener('click', ()=>{
-      document.querySelectorAll('.num').forEach(i=>i.value=0);
-      form.reset(); // clears visible fields, not our custom nums
-      render();
-    });
+    section.innerHTML = `
+      <div class="category-header">
+        <span class="category-icon">${cat.icon}</span>
+        <span class="category-name">${cat.name}</span>
+        <span class="category-count" id="count-${cat.id}">${images.length} photo${images.length !== 1 ? 's' : ''}</span>
+      </div>
+      <div class="carousel-nav">
+        <button class="nav-btn" onclick="scrollCarousel('${cat.id}', -1)" title="Previous">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="10 3 5 8 10 13"/>
+          </svg>
+        </button>
+        <button class="nav-btn" onclick="scrollCarousel('${cat.id}', 1)" title="Next">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 3 11 8 6 13"/>
+          </svg>
+        </button>
+      </div>
+      <div class="carousel-wrapper">
+        <div class="carousel-track" id="track-${cat.id}"></div>
+      </div>
+      <input type="file" class="file-input" id="file-${cat.id}" accept="image/*" multiple>
+    `;
 
-    // Build payload + basic front-end validation
-    form.addEventListener('submit', (e)=>{
-      const { q, items, subtotal, discount, total, bundles } = getTotals();
+    container.appendChild(section);
 
-      // Simple checks for mobile UX
-      if(items === 0){
-        e.preventDefault();
-        alert('Please select at least 1 jar.');
-        return;
-      }
-      const required = ['name','phone','country','state','city','postcode','address'];
-      for(const id of required){
-        const el = document.getElementById(id);
-        if(!el.value.trim()){
-          e.preventDefault();
-          el.focus();
-          el.scrollIntoView({behavior:'smooth', block:'center'});
-          el.style.boxShadow = '0 0 0 3px rgba(255,82,82,.35)';
-          setTimeout(()=>el.style.boxShadow='', 1000);
-          return;
+    // Populate slides
+    renderSlides(cat.id, cat.color);
+
+    // File input change
+    const fileInput = section.querySelector(`#file-${cat.id}`);
+    fileInput.addEventListener('change', (e) => handleFiles(cat.id, cat.color, e.target.files));
+
+    // Drag to scroll
+    enableDragScroll(cat.id);
+  });
+}
+
+function renderSlides(catId, bgColor) {
+  const track = document.getElementById('track-' + catId);
+  const images = loadImages(catId);
+  track.innerHTML = '';
+
+  // Existing photos
+  images.forEach((src, idx) => {
+    const slide = document.createElement('div');
+    slide.className = 'carousel-slide';
+    slide.innerHTML = `
+      <img src="${src}" alt="Our moment" loading="lazy">
+      <button class="remove-btn" onclick="removePhoto('${catId}',${idx},'${bgColor}')"
+        style="position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,0.35);border:none;color:white;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;"
+        title="Remove">✕</button>
+    `;
+    slide.addEventListener('mouseenter', () => slide.querySelector('.remove-btn').style.opacity = '1');
+    slide.addEventListener('mouseleave', () => slide.querySelector('.remove-btn').style.opacity = '0');
+    track.appendChild(slide);
+  });
+
+  // Add photo button
+  const addBtn = document.createElement('div');
+  addBtn.className = 'add-slide';
+  addBtn.innerHTML = `<div class="add-icon">+</div><span>add photos</span>`;
+  addBtn.onclick = () => document.getElementById('file-' + catId).click();
+  track.appendChild(addBtn);
+
+  // Update count
+  const countEl = document.getElementById('count-' + catId);
+  if (countEl) countEl.textContent = `${images.length} photo${images.length !== 1 ? 's' : ''}`;
+}
+
+function removePhoto(catId, idx, bgColor) {
+  const images = loadImages(catId);
+  images.splice(idx, 1);
+  saveImages(catId, images);
+  renderSlides(catId, bgColor);
+}
+
+function handleFiles(catId, bgColor, files) {
+  const images = loadImages(catId);
+  let loaded = 0;
+  Array.from(files).forEach(file => {
+    if (!file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Compress before storing
+      compressImage(e.target.result, 800, 0.82, (compressed) => {
+        images.push(compressed);
+        loaded++;
+        if (loaded === files.length) {
+          saveImages(catId, images);
+          renderSlides(catId, bgColor);
         }
+      });
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function compressImage(dataUrl, maxWidth, quality, callback) {
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    let w = img.width, h = img.height;
+    if (w > maxWidth) { h = h * maxWidth / w; w = maxWidth; }
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, w, h);
+    callback(canvas.toDataURL('image/jpeg', quality));
+  };
+  img.src = dataUrl;
+}
+
+function scrollCarousel(catId, dir) {
+  const track = document.getElementById('track-' + catId);
+  track.scrollBy({ left: dir * 310, behavior: 'smooth' });
+}
+
+function enableDragScroll(catId) {
+  const track = document.getElementById('track-' + catId);
+  let isDown = false, startX, scrollLeft;
+  track.addEventListener('mousedown', e => {
+    isDown = true;
+    track.style.cursor = 'grabbing';
+    startX = e.pageX - track.offsetLeft;
+    scrollLeft = track.scrollLeft;
+  });
+  track.addEventListener('mouseleave', () => { isDown = false; track.style.cursor = 'grab'; });
+  track.addEventListener('mouseup', () => { isDown = false; track.style.cursor = 'grab'; });
+  track.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - track.offsetLeft;
+    track.scrollLeft = scrollLeft - (x - startX) * 1.5;
+  });
+}
+
+// ── PETAL RAIN ───────────────────────────────────────────
+function createPetals() {
+  const container = document.getElementById('petalsContainer');
+  for (let i = 0; i < 12; i++) {
+    const petal = document.createElement('div');
+    petal.className = 'petal';
+    const size = 10 + Math.random() * 16;
+    petal.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random() * 100}%;
+      animation-duration:${8 + Math.random() * 10}s;
+      animation-delay:${Math.random() * 8}s;
+      transform: rotate(${Math.random()*360}deg);
+      opacity:0;
+    `;
+    container.appendChild(petal);
+  }
+}
+
+// ── SCROLL REVEAL ────────────────────────────────────────
+function initScrollReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
-
-      const order = {
-        items: [
-          { sku:'mild',  label:'Mild',       qty:q.mild,  unit_aud: PRICE_EACH },
-          { sku:'hot',   label:'Hot',        qty:q.hot,   unit_aud: PRICE_EACH },
-          { sku:'extra', label:'Extra Hot',  qty:q.extra, unit_aud: PRICE_EACH }
-        ].filter(x=>x.qty>0),
-        totals: {
-          pieces: items,
-          bundles, // number of 6-packs applied
-          subtotal_aud: subtotal,
-          discount_aud: discount,
-          total_aud: total,
-          rule: `Every ${BUNDLE_SIZE} = ${fmt(BUNDLE_PRICE)} else ${fmt(PRICE_EACH)} each`
-        },
-        customer: {
-          name: document.getElementById('name').value.trim(),
-          phone: document.getElementById('phone').value.trim(),
-          country: document.getElementById('country').value.trim(),
-          state: document.getElementById('state').value.trim(),
-          city: document.getElementById('city').value.trim(),
-          postcode: document.getElementById('postcode').value.trim(),
-          address: document.getElementById('address').value.trim()
-        },
-        meta:{
-          created_at: new Date().toISOString(),
-          currency:'AUD'
-        }
-      };
-
-      // Fill hidden inputs for PHP to consume
-      document.getElementById('orderJson').value = JSON.stringify(order);
-      document.getElementById('totalAud').value = String(total);
-      document.getElementById('discountAud').value = String(discount);
     });
+  }, { threshold: 0.1 });
 
-    // Initial paint
-    render();
-  </script>
+  document.querySelectorAll('.category').forEach(el => observer.observe(el));
+}
+
+// ── INIT ─────────────────────────────────────────────────
+buildCategories();
+createPetals();
+initScrollReveal();
+</script>
 </body>
 </html>
