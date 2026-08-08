@@ -69,7 +69,9 @@
 
     <p class="names-script reveal">Divine <span class="amp">&amp;</span> Denmar</p>
 
-    <p class="tagline reveal">Wishing us a day filled<br>with joy, love, and good vibes.</p>
+    <p class="invited-big reveal">✿ You're Invited ✿</p>
+
+    <p class="tagline reveal">Let's slow down, laugh a little louder,<br>and enjoy the time with family and friends.</p>
 
     <a href="#details" class="scroll-cue reveal" aria-label="Scroll for details">
       <span></span>
@@ -81,7 +83,6 @@
 <!--  DETAILS                                                 -->
 <!-- ======================================================= -->
 <section class="details" id="details">
-  <p class="invite-badge reveal">✿ You're Invited ✿</p>
   <h2 class="section-title reveal">Join the celebration</h2>
   <p class="chuchu reveal">Come party with us — chuchu! 🎉</p>
 
@@ -89,7 +90,7 @@
     <div class="card reveal">
       <svg viewBox="0 0 48 48" class="icon"><rect x="8" y="10" width="32" height="30" rx="4" fill="none" stroke="var(--olive-deep)" stroke-width="2"/><line x1="8" y1="18" x2="40" y2="18" stroke="var(--olive-deep)" stroke-width="2"/><line x1="16" y1="6" x2="16" y2="14" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/><line x1="32" y1="6" x2="32" y2="14" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/></svg>
       <h3>The Date</h3>
-      <p>Thursday, August 20 - 5:30PM</p>
+      <p>Thursday, August 20- 5:30PM</p>
     </div>
 
     <div class="card reveal">
@@ -287,6 +288,21 @@ body{
   margin: 0 6px;
 }
 
+.invited-big{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: clamp(15px, 2.6vw, 20px);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: linear-gradient(135deg, var(--tan), var(--gold));
+  display: inline-block;
+  padding: 14px 34px;
+  border-radius: 40px;
+  box-shadow: 0 12px 28px rgba(169,117,74,0.3);
+  margin: 4px 0 26px;
+}
+
 .tagline{
   font-size: 19px;
   font-style: italic;
@@ -322,7 +338,7 @@ body{
 
 /* ---------- DETAILS ---------- */
 .details{
-  padding: 110px 24px 90px;
+  padding: 130px 24px 90px;
   text-align: center;
   max-width: 980px;
   margin: 0 auto;
@@ -484,8 +500,8 @@ body{
   /* ================================================================
      EDIT THESE THREE LINES WITH YOUR VENUE'S DETAILS
      ================================================================ */
-  const VENUE_LAT = 10.694674723731747;      // <-- replace with your latitude , 122.96392356913869
-  const VENUE_LNG =  122.96392356913869;     // <-- replace with your longitude
+  const VENUE_LAT = 10.694677120189231;      // 10.694677120189231, 122.96392722130979
+  const VENUE_LNG = 122.96392722130979;     // <-- replace with your longitude
   const VENUE_NAME = "The Local Cafe Bacolod"; // <-- replace with the place's name
 
   document.getElementById('venue-name').textContent = VENUE_NAME;
